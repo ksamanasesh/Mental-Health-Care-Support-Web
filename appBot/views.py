@@ -5,3 +5,6 @@ from django.shortcuts import render,HttpResponse
 def testing(request):
     text = '<h1>Mental Health Care Support</h1>'
     return HttpResponse(text)
+
+def signUp(request):
+    pass
