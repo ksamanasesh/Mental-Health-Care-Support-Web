@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/userApp/css/home.css">
+    <title>MHCS Home</title>
+
+</head>
+
+<body class="body">
+    <div class="header">
+        <h1>Citronic Mental Health Care Support</h1>
+
+        {% if user.is_authenticated %}
+
+        <h1>{{ welcome }}</h1>
+        <a href="signOut"><button>Sign Out</button></a>
+
+        {% else %}
+
+        <a href="signUp"><button>Sign Up </button></a> <br>
+        <a href="signIn"><button>Sign In</button></a>
+
+        {% endif %}
+    </div>
+    {{ redirect_to_login_immediately }}
+    
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MHCS Sign In</title>
+</head>
+<body>
+    {% if error %}
+    <h1 style="color: red;">{{ error }}</h1>
+    {% endif %}
+
+    <h1>Sign in to your profile</h1>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" maxlength="25" required>
+
+        <label for="pass1">Password</label>
+        <input type="password" name="pass1" id="pass1" maxlength="20" required>
+
+        <input type="submit" placeholder="Sign In">
+    </form>
+
+    <a href="signUp"><button>New to MHCS?</button></a>
+    
+</body>
+</html>
