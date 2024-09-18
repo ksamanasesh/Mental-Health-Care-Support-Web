@@ -40,7 +40,7 @@ def signUp(request):
                     return render(request,'signUp.html',context={'same_words':same_words})
                 else:
                     if pass1 == pass2 :
-                        createUser = User.objects.create_user(username=username, email=email, password=pass1)
+                        createUser = User.objects.create_user(first_name=fname,last_name=lname,username=username, email=email, password=pass1)
                         createUser.first_name = fname
                         createUser.last_name = lname
                         createUser.save()

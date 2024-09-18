@@ -78,8 +78,11 @@ WSGI_APPLICATION = 'mental_Health_Bot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'MHCS_bd',
+        'USER': 'postgres',
+        'PASSWORD':'Smith',
+        'HOST':'localhost'
     }
 }
 
