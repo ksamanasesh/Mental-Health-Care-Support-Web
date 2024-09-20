@@ -75,3 +75,7 @@ def signOut(request):
     logout(request)
     logOut = "Successfully logged Out"
     return render(request,'home.html',context={'logOut':logOut})
+
+def user_profile(requet):
+    if request.method == 'POST':
+        
