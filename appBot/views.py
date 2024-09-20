@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
+from .forms import user_details
 from fuzzywuzzy import fuzz
 
 # Create your views here.
@@ -76,6 +77,12 @@ def signOut(request):
     logOut = "Successfully logged Out"
     return render(request,'home.html',context={'logOut':logOut})
 
-def user_profile(requet):
-    if request.method == 'POST':
-        
+# def user_profile(requet):
+#     if request.method == 'POST':
+#         form = user_details(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('')
+#         else:
+#             form = user_details
+#             return render(request,'')
