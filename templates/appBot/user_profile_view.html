@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Person List</title>
+</head>
+<body>
+    <h1>Person List</h1>
+    <ul>
+        {% for person in persons %}
+            <li>{{ user_details.full_name }} 
+                {{ user_details.age }}
+                {{ user_details.gender }}
+                {{ user_details.ph_number }}
+                {{ user_details.mail_id }}
+                {{ user_details.occup }}
+            </li>
+        {% empty %}
+            <a href="user_profile_view"><button>Add your User Details</button></a>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -21,8 +21,12 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test',views.testing,name='Testing'),
-    path('',views.home,name='MHCS Home'),
+    path('home',views.home,name='MHCS Home'),
     path('signUp',views.signUp,name='MHCS SignUp'),
     path('signIn',views.signIn,name='MHCS SignIn'),
-    path('signOut',views.signOut,name='MHCS SignOut')
+    path('signOut',views.signOut,name='MHCS SignOut'),
+    path('details',views.user_profile,name='User Details'),
+    path('user_profile_view',views.user_profile_view,name='View Details'),
+    path('',views.chat_interface, name='chat_interface'),  # To render the chat UI
+    path('chat/',views.chat, name='chat'),  # To handle chat requests (POST)
 ]

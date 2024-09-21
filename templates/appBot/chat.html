@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chat-container { width: 400px; margin: 50px auto; border: 1px solid #ccc; padding: 10px; }
+        #messages { height: 300px; overflow-y: scroll; border: 1px solid #eee; margin-bottom: 10px; padding: 5px; }
+        .message { margin: 5px; }
+        .user { text-align: right; color: blue; }
+        .bot { text-align: left; color: green; }
+        #input { width: 100%; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <div id="messages"></div>
+    <input type="text" id="input" placeholder="Type your message..." />
+    <button id="send-btn">Send</button>
+</div>
+
+<script>
+    document.getElementById('send-btn').addEventListener('click', function() {
+        const inputField = document.getElementById('input');
+        const message = inputField.value;
+        if (message) {
+            addMessage('user', message);
+            inputField.value = '';
+
+            fetch('/chatbot/chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.response) {
+                    addMessage('bot', data.response);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                addMessage('bot', "Sorry, there was an error processing your request.");
+            });
+        }
+    });
+
+    function addMessage(sender, text) {
+        const messagesDiv = document.getElementById('messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message ' + sender;
+        messageDiv.textContent = text;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;  // Scroll to the bottom
+    }
+</script>
+
+</body>
+</html>

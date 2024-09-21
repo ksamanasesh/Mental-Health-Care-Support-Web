@@ -5,18 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/userApp/css/home.css">
+    <link rel="stylesheet" href="/static/appBot/css/home.css">
     <title>MHCS Home</title>
 
 </head>
 
 <body class="body">
     <div class="header">
-        <h1>Citronic Mental Health Care Support</h1>
+        <h1>Citronix Mental Health Care Support</h1>
 
         {% if user.is_authenticated %}
 
         <h1>{{ welcome }}</h1>
+        <a href="details"><button>Profile</button></a>
         <a href="signOut"><button>Sign Out</button></a>
 
         {% else %}
