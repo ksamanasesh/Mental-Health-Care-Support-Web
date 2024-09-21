@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import user_details,ChatMesage
 from .forms import user_details
 from fuzzywuzzy import fuzz
-from .services import get_bot_response
+# from .services import get_bot_response
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 import json
@@ -100,18 +100,18 @@ def user_profile_view(request):
     user_info = {'user_details': user_detail}
     return render(request,"user_profile_view.html", user_info)
 
-# chatbot/views.py
+
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import google.generativeai as genai
 import json
 
-# Hardcode your API key for testing purposes
+
 api_key = "AIzaSyAiEj2P1dCH_WL4VZhQCYKIwEkx6wkaay0"
 genai.configure(api_key=api_key)
 
-# Configure the model
+
 generation_config = {
     "temperature": 1,
     "top_p": 0.95,
@@ -125,7 +125,7 @@ model = genai.GenerativeModel(
     generation_config=generation_config,
 )
 
-# Create a new chat session
+
 chat_session = model.start_chat(
     history=[
         {
@@ -139,18 +139,16 @@ chat_session = model.start_chat(
     ]
 )
 
-# Define a view for handling chatbot messages
-@csrf_exempt  # Disable CSRF for this example
+
+@csrf_exempt  
 def chat_view(request):
     if request.method == 'POST':
-        # Parse the user input from the request
         data = json.loads(request.body)
         user_message = data.get('message', '')
-
-        # Send message to the chat session
         response = chat_session.send_message(user_message)
-
-        # Return the chatbot response as JSON
         return JsonResponse({"response": response.text})
     else:
         return JsonResponse({"error": "Invalid request method"}, status=400)
+
+def chat_page(request):
+    return render(request, 'chat.html')

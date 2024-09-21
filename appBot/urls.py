@@ -27,6 +27,6 @@ urlpatterns = [
     path('signOut',views.signOut,name='MHCS SignOut'),
     path('details',views.user_profile,name='User Details'),
     path('user_profile_view',views.user_profile_view,name='View Details'),
-    path('',views.chat_interface, name='chat_interface'),  # To render the chat UI
-    path('chat/',views.chat, name='chat'),  # To handle chat requests (POST)
+    path('chatbot/chat/', views.chat_view, name='chat'),
+    path('chat/', views.chat_page, name='chat_page') 
 ]
