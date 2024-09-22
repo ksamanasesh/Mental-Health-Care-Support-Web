@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import user_details,ChatMesage
 from .forms import user_details
 from fuzzywuzzy import fuzz
-# from .services import get_bot_response
+from .services import chat_session 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 import json
@@ -100,38 +100,6 @@ def user_profile_view(request):
     user_detail = user_details.object.all()
     user_info = {'user_details': user_detail}
     return render(request,"user_profile_view.html", user_info)
-
-api_key = "AIzaSyAiEj2P1dCH_WL4VZhQCYKIwEkx6wkaay0"
-genai.configure(api_key=api_key)
-
-
-generation_config = {
-    "temperature": 1,
-    "top_p": 0.95,
-    "top_k": 64,
-    "max_output_tokens": 8192,
-    "response_mime_type": "text/plain",
-}
-
-model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    generation_config=generation_config,
-)
-
-
-chat_session = model.start_chat(
-    history=[
-        {
-            "role": "user",
-            "parts": ["mental health care chatbot"],
-        },
-        {
-            "role": "model",
-            "parts": ["I am Smith, your mental health care assistant. How can I assist you today?"],
-        },
-    ]
-)
-
 
 @csrf_exempt  
 def chat_view(request):
