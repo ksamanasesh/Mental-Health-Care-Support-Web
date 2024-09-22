@@ -21,12 +21,12 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test',views.testing,name='Testing'),
-    path('home',views.home,name='MHCS Home'),
+    path('',views.home,name='MHCS Home'),
     path('signUp',views.signUp,name='MHCS SignUp'),
     path('signIn',views.signIn,name='MHCS SignIn'),
     path('signOut',views.signOut,name='MHCS SignOut'),
     path('details',views.user_profile,name='User Details'),
     path('user_profile_view',views.user_profile_view,name='View Details'),
     path('chatbot/chat/', views.chat_view, name='chat'),
-    path('chat/', views.chat_page, name='chat_page') 
+    path('chat/', views.chat_page, name='chat_page'), 
 ]

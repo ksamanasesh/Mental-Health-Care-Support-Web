@@ -9,7 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 import json
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt 
+from django.views.decorators.csrf import csrf_exempt
+import google.generativeai as genai
 
 # Create your views here.
 
@@ -100,14 +101,6 @@ def user_profile_view(request):
     user_info = {'user_details': user_detail}
     return render(request,"user_profile_view.html", user_info)
 
-
-
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import google.generativeai as genai
-import json
-
-
 api_key = "AIzaSyAiEj2P1dCH_WL4VZhQCYKIwEkx6wkaay0"
 genai.configure(api_key=api_key)
 
@@ -143,12 +136,19 @@ chat_session = model.start_chat(
 @csrf_exempt  
 def chat_view(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        user_message = data.get('message', '')
-        response = chat_session.send_message(user_message)
-        return JsonResponse({"response": response.text})
+            data = json.loads(request.body)
+            user_message = data.get('message', '')
+            response = chat_session.send_message(user_message)
+
+            return JsonResponse({"response": response.text})
     else:
-        return JsonResponse({"error": "Invalid request method"}, status=400)
+        return JsonResponse({"error": "Invalid request method"}, status=405)
 
 def chat_page(request):
     return render(request, 'chat.html')
+
+# @login_required
+# def chat_history(request):
+#     history = Chat.objects.filter(user=request.user).order_by('timestamp')
+
+#     return render(request, 'chat_history.html', {'history': history})

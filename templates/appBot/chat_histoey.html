@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History</title>
+</head>
+<body>
+    <h1>Your Chat History</h1>
+
+    <div id="chat-history">
+        {% for chat in history %}
+            <div class="{% if chat.is_bot %}bot-message{% else %}user-message{% endif %}">
+                <strong>{{ chat.user.username }}:</strong> {{ chat.message }} <br>
+                <small>{{ chat.timestamp }}</small>
+            </div>
+        {% empty %}
+            <p>No chat history available.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
