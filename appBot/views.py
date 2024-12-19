@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from .models import user_details,ChatMesage
-from .forms import user_details
+from .forms import user_details,userForm
 from fuzzywuzzy import fuzz
 from .services import chat_session 
 from django.contrib.auth.decorators import login_required
@@ -74,8 +74,8 @@ def signIn(request):
             return render(request,'home.html',context={'welcome':welcome})
         else :
             error = "Incorrect Username or Password"
-            return render(request,'signIn.html',context={'error':error})
-    return render(request,'signIn.html')
+            return render(request,'new_home.html',context={'error':error})
+    return render(request,'new_home.html')
 
 def home(request):
     return render(request,'home.html')
@@ -87,8 +87,9 @@ def signOut(request):
 
 def user_profile(request):
     if request.method == 'POST':
-        form = user_details(request.POST)
+        form = userForm(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
             form.save()
             return redirect('/user_profile_view')
         else:
