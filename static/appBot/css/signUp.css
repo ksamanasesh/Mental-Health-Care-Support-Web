@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #e3f2fd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+form {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+form label {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    transition: border 0.3s ease;
+}
+
+form input:focus {
+    border-color: #724ae8;
+    outline: none;
+}
+
+form input[type="submit"] {
+    padding: 12px;
+    font-size: 1rem;
+    background: #724ae8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background: #5a37c6;
+}
+
+a button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: #ffb74d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-decoration: none;
+}
+
+a button:hover {
+    background: #e59a25;
+}
+
+strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+a {
+    text-align: center;
+    margin-top: 15px;
+    display: block;
+    color: #724ae8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #5a37c6;
+}

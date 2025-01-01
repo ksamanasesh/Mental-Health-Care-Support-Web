@@ -1,0 +1,105 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #4b0082, #5c2f9b);
+    background-image: url('Sky.jpg'); /* Add your image path here */
+    background-size: cover;
+    background-position: center;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.profile-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #ddd;
+}
+
+.form-group input {
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: #bbb;
+}
+
+.form-group input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    outline: 2px solid #5c2f9b;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px 0;
+    background: #1f2aa3;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #0f083d;
+}
+
+.form-container p {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ddd;
+}
+
+.form-container p a {
+    color: #4432cd;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-container p a:hover {
+    text-decoration: underline;
+}

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import user_details,ChatMesage
 from .forms import user_details,userForm
 from fuzzywuzzy import fuzz
-from .services import chat_session 
+from .services import chat_session,get_special_response
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 import json
@@ -107,6 +107,9 @@ def chat_view(request):
     if request.method == 'POST':
             data = json.loads(request.body)
             user_message = data.get('message', '')
+            special_response = get_special_response(user_message)
+            if special_response:
+                return JsonResponse({"response": special_response})
             response = chat_session.send_message(user_message)
 
             return JsonResponse({"response": response.text})

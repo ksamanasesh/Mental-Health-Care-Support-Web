@@ -13,7 +13,7 @@ generation_config = {
     "temperature": 1,
     "top_p": 0.95,
     "top_k": 64,
-    "max_output_tokens": 8192,
+    "max_output_tokens": 75,
     "response_mime_type": "text/plain",
 }
 
@@ -35,3 +35,17 @@ chat_session = model.start_chat(
         },
     ]
 )
+# Function to check for predefined responses based on user message
+def get_special_response(user_message):
+    user_message = user_message.lower()
+
+    if "who are you" in user_message:
+        return "I am Smith, your virtual psychiatrist created to assist with mental health care and stress relief."
+    
+    if "who developed you" in user_message:
+        return "I was developed by team Citronix, a virtual psychiatrist, designed to help with mental health care and emotional well-being."
+
+    if "what is your name" in user_message:
+        return "I am Smith, your virtual psychiatrist. How can I assist you today?"
+
+    return None

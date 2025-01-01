@@ -140,4 +140,4 @@ AUTO_LOGOUT = {
     'session_Expired':"Your Session as expired, Please signin again to continue"
 }
 
-LOGIN_URL = '/'
+LOGIN_URL = '/signIn'
