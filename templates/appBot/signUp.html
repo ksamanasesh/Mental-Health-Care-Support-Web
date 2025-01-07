@@ -3,52 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Own Profile</title>
     <link rel="stylesheet" href="/static/appBot/css/signUp.css">
-    <title>MHCS SignUp</title>
 </head>
 <body>
-    <h1>Create your own profile</h1>
+    <div class="form-container">
+        <form class="profile-form">
+            <h2>Create Your Own Profile</h2>
+            
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" id="firstname" placeholder="Enter your first name">
+            </div>
 
-    {% if min_words %}
-        <strong style="color: red;">{{ min_words }}</strong>
-    {% endif %}
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" placeholder="Enter your last name">
+            </div>
 
-    {% if numeric_char %}
-        <strong style="color: red;">{{ numeric_char }}</strong>
-    {% endif %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username">
+            </div>
 
-    {% if same_words %}
-        <strong style="color: red;">{{ same_words }}</strong>
-    {% endif %}
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
 
-    {% if noMatch %}
-    <strong style="color: red;">{{ noMatch }}</strong>
-    {% endif %}
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
 
-    <form action="" method="post">
-        {% csrf_token %}
-        <label for="fname">First Name</label>
-        <input type="text" name="fname" id="fname" maxlength="15" required>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Confirm your password">
+            </div>
 
-        <label for="lname">Last Name</label>
-        <input type="text" name="lname" id="lname" maxlength="15" required>
-
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" maxlength="25" required>
-
-        <label for="email">E-mail Address</label>
-        <input type="email" name="email" id="email" maxlength="30" required> 
-
-        <label for="pass1">Password</label>
-        <input type="password" id="pass1" name="pass1" maxlength="20" required>
-
-        <label for="pass2">Confirm your password</label>
-        <input type="password" id="pass2" name="pass2" maxlength="20" required>
-
-        <input type="submit" placeholder="Create User" >
-
-    </form>
-
-    <a href="signIn"><button>Already Signned Up ?</button></a>
+            <button type="submit" class="submit-btn">Create Profile</button>
+        </form>
+        <a href="signIn"><button class="already-btn">Already Signned Up ?</button></a>
+    </div>
 </body>
 </html>
