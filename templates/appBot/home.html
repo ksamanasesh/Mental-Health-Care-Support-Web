@@ -10,26 +10,27 @@
 
 </head>
 
-<body class="body">
-    <div class="header">
-        <h1>Citronix Mental Health Care Support</h1>
-
-        {% if user.is_authenticated %}
-
-        <h1>{{ welcome }}</h1>
-        <a href="details"><button>Profile</button></a>
-        <a href="chat/"><button>Start Chatting. . . .</button></a>
-        <a href="signOut"><button>Sign Out</button></a>
-
-        {% else %}
-
-        <a href="signUp"><button>Sign Up </button></a> <br>
-        <a href="signIn"><button>Sign In</button></a>
-
-        {% endif %}
+<body>
+    <div class="content-container">
+        <div class="text-content">
+            <h1>CITRONIX MENTAL HEALTHCARE SUPPORT</h1>
+            {% if user.is_authenticated %}
+            
+            <h1>{{ WELCOME }}</h1>
+            <a href="details"><button class="btn signup-btn">Profile</button></a>
+            <a href="chat/"><button class="btn signup-btn">Start Chatting. . . .</button></a>
+            <a href="signOut"><button class="btn login-btn">Sign Out</button></a>
+            
+            {% else %}
+            <p>Join us to start your journey with our friendly chatbot SMITH.<br>Log in or sign up today!</p>
+            <div class="buttons">
+                <a href="signIn"><button class="btn login-btn">Login</button></a> <br>
+                <a href="signUp"><button class="btn signup-btn">Sign Up </button></a>
+            </div>
+            {% endif %}
+        </div>
+        {{ redirect_to_login_immediately }}
     </div>
-    {{ redirect_to_login_immediately }}
-    
 </body>
 
 </html>

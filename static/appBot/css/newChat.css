@@ -7,7 +7,10 @@
     font-family: "Inter", sans-serif;
 }
 body{
-    background: #e3f2fd;
+    background: linear-gradient(to bottom right, #4b0082, #5c2f9b);
+    background-image: url('D:/Code_set/Python/Project/Django/Mental-Health-Care-Support-Web/static/appBot/css/chatbotbg.jpg'); /* Add your image path here */
+    background-size: cover;
+    background-position: center;
 }
 
 header {

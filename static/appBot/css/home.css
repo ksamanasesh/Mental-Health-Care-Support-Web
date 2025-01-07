@@ -1,81 +1,95 @@
-* {
+/* General Reset */
+body, html {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body.body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f9;
-    display: flex;
+    font-family: 'Times New Roman', Times, serif;
+    background: url('chatbotbg.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: #FFFFFF;
+    height: 100vh;
+    display: flexbox;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    overflow: hidden; /* Prevents scrolling */
 }
 
-.header {
-    text-align: center;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
+/* Container for the content */
+.content-container {
+    max-width: 700px;
+    text-align:left;
+    margin-right: 50%; 
+    padding: 15rem;
+    padding-top: 10rem;
+    position: relative;
+    z-index: 1;
 }
 
-.header h1 {
-    color: #333;
-    font-size: 28px;
-    margin-bottom: 20px;
+.background-image {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50%;
+    height: auto;
+    z-index: 0;
 }
 
-.header button {
-    background-color: #007bff;
-    color: white;
+/* Main Heading */
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    max-width: 80%;
+}
+
+/* Paragraph text */
+p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    opacity: 0.8;
+    max-width: 80%; 
+}
+
+/* Buttons container */
+.buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Button styles */
+.btn {
     border: none;
-    padding: 12px 20px;
-    margin: 10px 0;
-    font-size: 16px;
-    border-radius: 25px;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    max-width: 250px;
+    transition: all 0.3s ease-in-out;
 }
 
-.header button:hover {
-    background-color: #0056b3;
+/* Login Button */
+.login-btn {
+    background-color: transparent;
+    color: #FF00FF; /* Neon pink */
+    border: 2px solid #FF00FF;
 }
 
-.header h1 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #4caf50; 
+.login-btn:hover {
+    background-color: #FF00FF;
+    color: #FFFFFF;
 }
 
-.header a {
-    text-decoration: none;
-    display: inline-block;
-    width: 100%;
+/* Sign Up Button */
+.signup-btn {
+    background-color: #FF00FF; /* Neon pink */
+    color: #FFFFFF;
 }
 
-.header a:not(:last-child) {
-    margin-bottom: 10px;
-}
-
-@media (max-width: 600px) {
-    .header {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .header button {
-        font-size: 14px;
-        padding: 10px;
-        max-width: 100%;
-    }
-
-    .header h1 {
-        font-size: 22px;
-    }
+.signup-btn:hover {
+    background-color: transparent;
+    color: #FF00FF;
+    border: 2px solid #FF00FF;
 }
