@@ -11,19 +11,16 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import os
-
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyA4A3uF4Lma6QS7oJKyf7XfUIB7bfTYo8o')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zu#(yxjprh&!)#aw!-58zcplw1c-kkr9xa=5j)u-f&p-%()xhe'
+SECRET_KEY = 'django-insecure-1)s_-my5!*9l@^3eme@m-9&@)p6n^9p&dh-4ktsn44ktt+q#kn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
