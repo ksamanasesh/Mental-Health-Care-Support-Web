@@ -157,12 +157,14 @@ body::before {
 }
 
 .header-info h1 {
+    color: white;
     font-size: 1.3rem;
     font-weight: 600;
     background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-    -webkit-text-fill-color: transparent;
+    /* -webkit-text-fill-color: transparent; */
     padding: 5px;
     margin: 0;
+    border-radius: 5px;
 }
 
 .status {
