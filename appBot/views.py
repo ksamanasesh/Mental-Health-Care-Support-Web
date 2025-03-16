@@ -101,33 +101,45 @@ logger = logging.getLogger(__name__)
 def chat_view(request):
     if request.method == 'POST':
         try:
-            # Debugging authentication issue
+            # Check authentication
             if not request.user.is_authenticated:
                 logger.warning("User session expired or authentication failed.")
                 return JsonResponse({"error": "Session expired. Please log in again."}, status=401)
 
             data = json.loads(request.body)
-            user_message = data.get('message', '')
+            user_message = data.get('message', '').strip()
 
             if not user_message:
                 return JsonResponse({"error": "Message cannot be empty"}, status=400)
 
             logger.info(f"User {request.user.username} sent: {user_message}")
 
-            # Retrieve user's chat history
-            user_chats = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
-            chat_history = []
-            for msg in user_chats:
-                chat_history.append({"role": "user", "parts": [msg.user_message]})
-                chat_history.append({"role": "model", "parts": [msg.bot_response]})
+            # Check for predefined responses (Dr. Smith's identity and developer info)
+            special_response = get_special_response(user_message)
+            if special_response:
+                return JsonResponse({"response": special_response})
 
-            # Use chat history in model (Assuming `chat_session` is defined)
-            chat_session.history = chat_history
+            # Retrieve last 10 messages to maintain context
+            chat_history = list(ChatMessage.objects.filter(user=request.user).order_by('-timestamp')[:10].values_list('user_message', 'bot_response'))
+            chat_history.reverse()  # Order from oldest to newest
+
+            # Format history for chat session
+            formatted_history = []
+            for user_msg, bot_resp in chat_history:
+                formatted_history.append({"role": "user", "parts": [user_msg]})
+                formatted_history.append({"role": "model", "parts": [bot_resp]})
+
+            # Update chat session history
+            chat_session.history = formatted_history
+
+            # Get AI response
             response = chat_session.send_message(user_message)
-            bot_response = response.text
+            bot_response = response.text if response else "I'm here to listen. How can I support you today?"
 
-            # Save chat to DB with correct field names
+            # Save chat to DB
             ChatMessage.objects.create(user=request.user, user_message=user_message, bot_response=bot_response)
+
+            logger.info(f"Bot response: {bot_response}")
 
             return JsonResponse({"response": bot_response})
 
@@ -136,6 +148,7 @@ def chat_view(request):
             return JsonResponse({"error": "Something went wrong"}, status=500)
 
     return JsonResponse({"error": "Invalid request method"}, status=405)
+
 # Retrieve Chat History
 @login_required(login_url='signIn')
 def get_chat_history(request):

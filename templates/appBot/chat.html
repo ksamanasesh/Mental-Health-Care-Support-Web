@@ -1,79 +1,145 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with Smith</title>
-    <link rel="stylesheet" href="/static/appBot/css/newChat.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'appBot/css/newChat.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Chat with Smith</h1>
+    
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-left">
+                <div class="avatar">
+                    <img src="{% static 'appBot/css/avatar.jpg' %}" alt="Smith Avatar">
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="header-info">
+                    <h1>SMITH</h1>
+                    <span class="status">Online</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="theme-toggle" title="Toggle Dark/Light mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="header-btn" id="clear-chat" title="Clear chat">
+                    <i class="fas fa-broom"></i>
+                </button>
+            </div>
+        </div>
 
-    <div id="chat-box"></div>
+        <div class="chat-messages" id="chat-box"></div>
 
-    <form id="chat-form">
-        {% csrf_token %}
-        <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off" required />
-        <button type="submit" id="send-btn">Send</button>
-    </form>
+        <form id="chat-form">
+            {% csrf_token %}
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <button class="input-btn emoji-btn"  type="button" title="Add emoji">
+                        <i class="far fa-smile"></i>
+                    </button>
+                    <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off" required />
+                    <button class="input-btn attach-btn"  type="button" title="Attach file">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                </div>
+                <button type="submit" id="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </form>
+    </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const chatBox = document.getElementById("chat-box");
             const chatForm = document.getElementById("chat-form");
             const userInput = document.getElementById("user-input");
-
-            chatForm.addEventListener("submit", function(event) {
+            const themeToggle = document.getElementById("theme-toggle");
+            const clearChat = document.getElementById("clear-chat");
+            const emojiBtn = document.querySelector(".emoji-btn");
+            const attachBtn = document.querySelector(".attach-btn");
+    
+            // Handle form submission
+            chatForm.addEventListener("submit", function (event) {
                 event.preventDefault();
-
-                const message = userInput.value;
-                if (message.trim() === "") return;
-                
-                chatBox.innerHTML += `<div class="user-message"><strong>You:</strong> ${message}</div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-
+                sendMessage();
+            });
+    
+            // Handle message sending
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (!message) return;
+    
+                addMessage(message, 'user');
                 userInput.value = "";
-
-                fetch('/chatbot/chat/', {
-                    method: 'POST',
+    
+                fetch("/chatbot/chat/", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken")
                     },
-                    credentials: 'same-origin',  // Fix session logout issue
+                    credentials: "same-origin",
                     body: JSON.stringify({ message: message })
                 })
                 .then(response => {
                     if (response.status === 401) {
                         alert("Session expired. Please log in again.");
-                        window.location.href = "/signIn";  // Redirect to login
+                        window.location.href = "/signIn";
                         return;
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Server Response:", data);  // Debugging log
-
                     if (data.response) {
-                        chatBox.innerHTML += `<div class="bot-message"><strong>Smith:</strong> ${data.response}</div>`;
-                        chatBox.scrollTop = chatBox.scrollHeight;
-                    } else if (data.error) {
-                        console.error("Error:", data.error);
-                        alert("Error: " + data.error);
+                        addMessage(data.response, 'bot');
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                    addMessage("Sorry, I'm having trouble connecting. Please try again later.", 'bot');
                 });
-            });
-
+            }
+    
+            // Function to add message to chat
+            function addMessage(content, sender) {
+                const now = new Date();
+                const time = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+                const messageClass = sender === 'user' ? 'user-message' : 'bot-message';
+                const name = sender === 'user' ? 'You' : 'Smith';
+                const avatar = sender === 'user' ? '{% static "appBot/css/user.jpg" %}' : '{% static "appBot/css/avatar.jpg" %}';
+    
+                chatBox.innerHTML += `
+                    <div class="${messageClass}">
+                        <div class="message-avatar">
+                            <img src="${avatar}" alt="${name}">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <strong>${name}</strong>
+                                <span class="message-time">${time}</span>
+                            </div>
+                            <div class="message-text">${content}</div>
+                        </div>
+                    </div>`;
+    
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+    
+            // Function to get CSRF token
             function getCookie(name) {
                 let cookieValue = null;
                 if (document.cookie && document.cookie !== '') {
                     const cookies = document.cookie.split(';');
                     for (let i = 0; i < cookies.length; i++) {
                         const cookie = cookies[i].trim();
-                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        if (cookie.startsWith(name + '=')) {
                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                             break;
                         }
@@ -81,7 +147,36 @@
                 }
                 return cookieValue;
             }
+    
+            // Theme toggle functionality
+            themeToggle.addEventListener("click", function () {
+                document.body.classList.toggle('light-mode');
+                themeToggle.querySelector('i').classList.toggle('fa-sun');
+                themeToggle.querySelector('i').classList.toggle('fa-moon');
+            });
+    
+            // Clear chat functionality
+            clearChat.addEventListener("click", function () {
+                if (confirm("Are you sure you want to clear the chat?")) {
+                    chatBox.innerHTML = "";
+                }
+            });
+    
+            // Emoji Picker
+            emojiBtn.addEventListener("click", function () {
+                const emoji = prompt("Enter emoji (or use Windows + . shortcut):");
+                if (emoji) {
+                    userInput.value += emoji;
+                    userInput.focus();
+                }
+            });
+    
+            // Attach Button Click
+            attachBtn.addEventListener("click", function () {
+                alert("Attach file functionality coming soon!");
+            });
         });
     </script>
+    
 </body>
 </html>

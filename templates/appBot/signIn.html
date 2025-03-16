@@ -1,31 +1,43 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/appBot/css/signIn.css">
+    <link rel="stylesheet" href="{% static 'appBot/css/signin.css' %}">
     <title>MHCS Sign In</title>
 </head>
+
 <body>
-    {% if error %}
-    <h1 style="color: red;">{{ error }}</h1>
-    {% endif %}
 
-    <h1>Sign in to your profile</h1>
+    <div class="main">
+        <div class="content">
+            <h1>MENTAL HEALTH SUPPORT <br><span>CHATBOT </span> </h1>
+
+                <div class="form">
+                    {% if error %}
+                    <h2 style="color: red;">{{ error }}</h2>
+                    {% endif %}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                    <h2>LOGIN HERE</h2>
+                    <input type="text" name="username" id="username" placeholder="Enter username Here">
+                    <input type="password" name="pass1" id="pass1" placeholder="Enter Password Here">
+                    <button type="submit" class="btnn">Login</a></button>
+
+                    <p class="link">Don't have an account?<br>
+                        <a href="signUp">Sign up </a> here</a></p>
+                        
+                    </form>
+                    </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    </body>
     
-    <form action="" method="post">
-        {% csrf_token %}
 
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" maxlength="25" required>
 
-        <label for="pass1">Password</label>
-        <input type="password" name="pass1" id="pass1" maxlength="20" required>
 
-        <input type="submit" placeholder="Sign In">
-    </form>
-
-    <a href="signUp"><button>New to MHCS?</button></a>
-    
-</body>
 </html>
