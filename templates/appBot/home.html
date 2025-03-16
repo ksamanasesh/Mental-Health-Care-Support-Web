@@ -5,31 +5,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/appBot/css/home.css">
+    <link rel="stylesheet" href="{% static 'appBot/css/home.css' %}">
     <title>MHCS Home</title>
-
 </head>
 
 <body>
     <div class="content-container">
         <div class="text-content">
             <h1>CITRONIX MENTAL HEALTHCARE SUPPORT</h1>
+
             {% if user.is_authenticated %}
-            
-            <h1>{{ WELCOME }}</h1>
-            <a href="details"><button class="btn signup-btn">Profile</button></a>
-            <a href="chat/"><button class="btn signup-btn">Start Chatting. . . .</button></a>
-            <a href="signOut"><button class="btn login-btn">Sign Out</button></a>
-            
+                <h1>{{ welcome }}</h1> 
+
+                <a href="{% url 'details' %}"><button class="btn signup-btn">Profile</button></a>
+                <a href="{% url 'chat' %}"><button class="btn signup-btn">Start Chatting. . . .</button></a>
+                <a href="{% url 'signOut' %}"><button class="btn login-btn">Sign Out</button></a>
+
             {% else %}
-            <p>Join us to start your journey with our friendly chatbot SMITH.<br>Log in or sign up today!</p>
-            <div class="buttons">
-                <a href="signIn"><button class="btn login-btn">Login</button></a> <br>
-                <a href="signUp"><button class="btn signup-btn">Sign Up </button></a>
-            </div>
+                <p>Join us to start your journey with our friendly chatbot SMITH.<br>Log in or sign up today!</p>
+                <div class="buttons">
+                    <a href="{% url 'signIn' %}"><button class="btn login-btn">Login</button></a> <br>
+                    <a href="{% url 'signUp' %}"><button class="btn signup-btn">Sign Up </button></a>
+                </div>
+
             {% endif %}
         </div>
-        {{ redirect_to_login_immediately }}
     </div>
 </body>
 

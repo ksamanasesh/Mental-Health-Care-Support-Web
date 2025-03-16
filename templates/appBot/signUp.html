@@ -8,42 +8,54 @@
 </head>
 <body>
     <div class="form-container">
-        <form class="profile-form">
+        <form class="profile-form" method="post">
+            {% csrf_token %}
+
             <h2>Create Your Own Profile</h2>
-            
+
+            {% if min_words %}
+                <p style="color: red;">{{ min_words }}</p>
+            {% endif %}
+            {% if noMatch %}
+                <p style="color: red;">{{ noMatch }}</p>
+            {% endif %}
+
             <div class="form-group">
                 <label for="firstname">First Name</label>
-                <input type="text" id="firstname" placeholder="Enter your first name">
+                <input type="text" id="firstname" name="fname" placeholder="Enter your first name" required>
             </div>
 
             <div class="form-group">
                 <label for="lastname">Last Name</label>
-                <input type="text" id="lastname" placeholder="Enter your last name">
+                <input type="text" id="lastname" name="lname" placeholder="Enter your last name" required>
             </div>
 
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Enter your username">
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
             </div>
 
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="Enter your email">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password">
+                <input type="password" id="password" name="pass1" placeholder="Enter your password" required>
             </div>
 
             <div class="form-group">
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Confirm your password">
+                <input type="password" id="confirm-password" name="pass2" placeholder="Confirm your password" required>
             </div>
 
             <button type="submit" class="submit-btn">Create Profile</button>
         </form>
-        <a href="signIn"><button class="already-btn">Already Signned Up ?</button></a>
+        
+        <a href="signIn">
+            <button class="already-btn">Already Signed Up?</button>
+        </a>
     </div>
 </body>
 </html>

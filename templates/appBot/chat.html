@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chat with Smith</title>
-        <link rel="stylesheet" href="/static/appBot/css/newChat.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Smith</title>
+    <link rel="stylesheet" href="/static/appBot/css/newChat.css">
+</head>
 <body>
     <h1>Chat with Smith</h1>
 
-    <div id="chat-box">
-
-    </div>
-
+    <div id="chat-box"></div>
 
     <form id="chat-form">
+        {% csrf_token %}
         <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off" required />
         <button type="submit" id="send-btn">Send</button>
     </form>
@@ -32,7 +30,7 @@
                 if (message.trim() === "") return;
                 
                 chatBox.innerHTML += `<div class="user-message"><strong>You:</strong> ${message}</div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to the bottom of the chat
+                chatBox.scrollTop = chatBox.scrollHeight;
 
                 userInput.value = "";
 
@@ -42,15 +40,26 @@
                         'Content-Type': 'application/json',
                         'X-CSRFToken': getCookie('csrftoken')
                     },
+                    credentials: 'same-origin',  // Fix session logout issue
                     body: JSON.stringify({ message: message })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 401) {
+                        alert("Session expired. Please log in again.");
+                        window.location.href = "/signIn";  // Redirect to login
+                        return;
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    console.log("Server Response:", data);  // Debugging log
+
                     if (data.response) {
                         chatBox.innerHTML += `<div class="bot-message"><strong>Smith:</strong> ${data.response}</div>`;
-                        chatBox.scrollTop = chatBox.scrollHeight;  
+                        chatBox.scrollTop = chatBox.scrollHeight;
                     } else if (data.error) {
                         console.error("Error:", data.error);
+                        alert("Error: " + data.error);
                     }
                 })
                 .catch(error => {

@@ -19,14 +19,13 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('test',views.testing,name='Testing'),
-    path('',views.home,name='MHCS Home'),
-    path('signUp',views.signUp,name='MHCS SignUp'),
-    path('signIn',views.signIn,name='MHCS SignIn'),
-    path('signOut',views.signOut,name='MHCS SignOut'),
-    path('details',views.user_profile,name='User Details'),
-    path('user_profile_view',views.user_profile_view,name='View Details'),
-    path('chatbot/chat/', views.chat_view, name='chat'),
-    path('chat/', views.chat_page, name='chat_page'), 
+    path('',views.home,name='home'),
+    path('signUp',views.signUp,name='signUp'),
+    path('signIn',views.signIn,name='signIn'),
+    path('signOut',views.signOut,name='signOut'),
+    path('details',views.user_profile,name='details'),
+    path('user_profile_view',views.user_profile_view,name='user_profile_view'),
+    path('chatbot/chat/', views.chat_view, name='g'),
+    path('chat/', views.chat_page, name='chat'), 
 ]
