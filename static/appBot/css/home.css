@@ -76,7 +76,7 @@ body, html {
 
 .menu ul li {
     margin: 0 15px;
-    margin-right: 50px;
+    margin-right: 70px;
 }
 
 .menu ul li a {
@@ -176,6 +176,7 @@ p {
 .signup-btn {
     background-color: #FF00FF; /* Neon pink */
     color: #FFFFFF;
+    margin-bottom: 5px;
 }
 
 .signup-btn:hover {
