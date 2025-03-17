@@ -1,6 +1,7 @@
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
+import re  # Import regex for formatting
 
 load_dotenv()
 
@@ -12,7 +13,7 @@ generation_config = {
     "temperature": 0.7,  # Balanced randomness for a natural tone
     "top_p": 0.95,
     "top_k": 64,
-    "max_output_tokens": 512,  # Increased to avoid response cut-off
+    "max_output_tokens": 512,  # Avoid truncation
     "response_mime_type": "text/plain",
 }
 
@@ -38,16 +39,15 @@ chat_session = model.start_chat(
     ]
 )
 
-# Function to format AI response with proper line breaks
+# Function to properly format AI responses
 def format_response(response_text):
-    """Formats AI response to ensure bullet points and sections start on a new line."""
-    # Ensure each "**" or "* **" starts on a new line
-    formatted_text = response_text.replace("* **", "\n\n**").replace("\n*", "\n\n*")
+    """Ensures correct line breaks before bullet points and bold text."""
     
-    # Fix spacing issues & strip leading/trailing whitespace
-    formatted_text = formatted_text.strip()
+    # Ensure "**" starts a new paragraph
+    formatted_text = re.sub(r'\s*\*\*', r'\n\n**', response_text)  # Fix bold sections
+    formatted_text = re.sub(r'\s*\* \*\*', r'\n\n* **', formatted_text)  # Fix bullet points
     
-    return formatted_text
+    return formatted_text.strip()
 
 # Function to check for predefined responses based on user message
 def get_special_response(user_message):
@@ -55,12 +55,12 @@ def get_special_response(user_message):
     user_message = user_message.lower()
 
     identity_response = (
-        "I'm Dr. Smith, your virtual mental health assistant. 😊\n\n"
+        "**I'm Dr. Smith, your virtual mental health assistant. 😊**\n\n"
         "I'm here to offer guidance, support, and a listening ear."
     )
 
     developer_response = (
-        "I was developed by **Team Citronix**, a passionate group dedicated to AI-powered mental health care.\n\n"
+        "**I was developed by Team Citronix**, a passionate group dedicated to AI-powered mental health care.\n\n"
         "My purpose is to provide compassionate and supportive guidance."
     )
 
@@ -89,5 +89,5 @@ def chat_with_bot(user_message):
     if response and response.text and response.text.endswith(("I", "and", "to", "but", "because", "so", "the", "that")):
         response = chat_session.send_message("Can you continue?")
 
-    # Format response to move '**' points to a new paragraph
+    # Format response to move '**' and '* **' to a new paragraph
     return format_response(response.text) if response else "I'm here for you. How can I support you today? 💙"
