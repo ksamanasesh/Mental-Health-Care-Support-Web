@@ -11,6 +11,15 @@ import logging
 from .models import UserDetails, ChatMessage  # Updated model names
 from .forms import userForm
 from .services import chat_session, get_special_response  # Import chat configuration
+import io
+import base64
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .models import ChatMessage
+from collections import Counter
+import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
 
 # Test Route
 def testing(request):
@@ -169,3 +178,78 @@ def get_chat_history(request):
 @login_required(login_url='signIn')
 def chat_page(request):
     return render(request, 'chat.html', {'csrf_token': get_token(request)})
+
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend to prevent Tkinter issues
+import matplotlib.pyplot as plt
+import io, base64
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import ChatMessage
+from collections import Counter
+from nltk.sentiment import SentimentIntensityAnalyzer
+from django.utils import timezone
+import nltk
+
+# Ensure NLTK dependencies are downloaded
+
+
+# Ensure NLTK dependencies are downloaded
+nltk.download('vader_lexicon')
+sia = SentimentIntensityAnalyzer()
+
+@login_required
+def get_chat_data(request):
+    user_chats = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
+
+    if not user_chats.exists():
+        return JsonResponse({
+            "sentiment_counts": [0, 0, 0],
+            "chat_dates": [],
+            "chat_counts": [],
+            "common_words": [],
+            "word_counts": [],
+            "engagement_hours": [],
+            "engagement_counts": []
+        })
+
+    # Sentiment Analysis
+    sentiments = {'Positive': 0, 'Neutral': 0, 'Negative': 0}
+    for chat in user_chats:
+        sentiment_score = sia.polarity_scores(chat.user_message)['compound']
+        if sentiment_score >= 0.05:
+            sentiments['Positive'] += 1
+        elif sentiment_score <= -0.05:
+            sentiments['Negative'] += 1
+        else:
+            sentiments['Neutral'] += 1
+    sentiment_counts = [sentiments['Positive'], sentiments['Neutral'], sentiments['Negative']]
+
+    # Chat Frequency Over Time
+    daily_chats = Counter(chat.timestamp.date() for chat in user_chats)
+    chat_dates, chat_counts = zip(*sorted(daily_chats.items())) if daily_chats else ([], [])
+
+    # Common Words
+    word_counter = Counter()
+    for chat in user_chats:
+        word_counter.update(chat.user_message.lower().split())
+
+    common_words, word_counts = zip(*word_counter.most_common(10)) if word_counter else ([], [])
+
+    # User Engagement by Hour
+    hourly_counts = Counter(chat.timestamp.hour for chat in user_chats)
+    engagement_hours, engagement_counts = zip(*sorted(hourly_counts.items())) if hourly_counts else ([], [])
+
+    return JsonResponse({
+        "sentiment_counts": sentiment_counts,
+        "chat_dates": list(chat_dates),
+        "chat_counts": list(chat_counts),
+        "common_words": list(common_words),
+        "word_counts": list(word_counts),
+        "engagement_hours": list(engagement_hours),
+        "engagement_counts": list(engagement_counts)
+    })
+
+@login_required
+def chatbot_dashboard(request):
+    return render(request, 'dashboard.html')

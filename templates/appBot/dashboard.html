@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Dashboard</title>
+    <link rel="stylesheet" href="../../static/appBot/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Chatbot Analytics Dashboard</h2>
+        
+        <div class="row">
+            <!-- Sentiment Analysis Chart -->
+            <div class="col-md-6">
+                <h4>Sentiment Analysis</h4>
+                <canvas id="sentimentChart"></canvas>
+            </div>
+
+            <!-- Chat Frequency Over Time -->
+            <div class="col-md-6">
+                <h4>Chat Frequency Over Time</h4>
+                <canvas id="chatFrequencyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Word Cloud Placeholder -->
+            <div class="col-md-6">
+                <h4>Commonly Used Words</h4>
+                <canvas id="wordCloudChart"></canvas>
+            </div>
+
+            <!-- User Engagement by Hour -->
+            <div class="col-md-6">
+                <h4>User Engagement by Hour</h4>
+                <canvas id="engagementChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       $(document).ready(function () {
+    $.getJSON("/get_chat_data/", function (data) {
+        console.log("Chat Data Received:", data); // Debugging log
+
+        if (!data || Object.keys(data).length === 0) {
+            console.error("No data received from API.");
+            return;
+        }
+
+        // Fix possible undefined data issues
+        let sentimentCounts = data.sentiment_counts || [0, 0, 0];
+        let chatDates = data.chat_dates || [];
+        let chatCounts = data.chat_counts || [];
+        let commonWords = data.common_words || [];
+        let wordCounts = data.word_counts || [];
+        let engagementHours = data.engagement_hours || [];
+        let engagementCounts = data.engagement_counts || [];
+
+        // Sentiment Analysis Chart
+        new Chart(document.getElementById("sentimentChart"), {
+            type: 'pie',
+            data: {
+                labels: ['Positive', 'Neutral', 'Negative'],
+                datasets: [{
+                    data: sentimentCounts,
+                    backgroundColor: ['green', 'blue', 'red']
+                }]
+            }
+        });
+
+        // Chat Frequency Chart
+        new Chart(document.getElementById("chatFrequencyChart"), {
+            type: 'line',
+            data: {
+                labels: chatDates,
+                datasets: [{
+                    label: 'Chats per Day',
+                    data: chatCounts,
+                    borderColor: 'purple',
+                    fill: false
+                }]
+            }
+        });
+
+        // Word Cloud Bar Chart
+        new Chart(document.getElementById("wordCloudChart"), {
+            type: 'bar',
+            data: {
+                labels: commonWords,
+                datasets: [{
+                    label: 'Word Frequency',
+                    data: wordCounts,
+                    backgroundColor: 'orange'
+                }]
+            }
+        });
+
+        // User Engagement by Hour
+        new Chart(document.getElementById("engagementChart"), {
+            type: 'bar',
+            data: {
+                labels: engagementHours,
+                datasets: [{
+                    label: 'Messages per Hour',
+                    data: engagementCounts,
+                    backgroundColor: 'cyan'
+                }]
+            }
+        });
+
+    }).fail(function () {
+        console.error("Error fetching chat data!");
+    });
+});
+
+    </script>
+</body>
+</html>
