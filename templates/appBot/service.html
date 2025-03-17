@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/appBot/css/service.css">
+    <title>Our Services - Mental Health Support Chatbot</title>
+</head>
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+                <h2 class="logo">DR.SMITH</h2>
+            </div>
+
+            <div class="menu">
+                <ul>
+                    <li><a href="{% url 'home' %}">HOME</a></li>
+                    <li><a href="{% url 'about' %}">ABOUT</a></li>
+                    <li><a href="{% url 'service' %}">SERVICE</a></li>
+                    <li><a href="{% url 'design' %}">DESIGN</a></li>
+                    <li><a href="{% url 'contact' %}">CONTACT</a></li>
+
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="service-section">
+                <h1>OUR SERVICES</h1>
+                
+                <div class="services-container">
+                    <div class="service-card">
+                       
+                        <div class="service-icon">💬</div>
+                        <h2>24/7 Chat Support</h2>
+                        <p>Access our AI-powered chatbot anytime, anywhere. DR.SMITH is available 24/7 to provide immediate support during moments of stress, anxiety, or when you simply need someone to talk to.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <ion-icon name="fitness"></ion-icon>
+                        </div>
+                        <h2>Mood Tracking</h2>
+                        <p>Monitor your emotional well-being with our intuitive mood tracking system. Identify patterns, triggers, and improvements in your mental health journey.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <ion-icon name="book"></ion-icon>
+                        </div>
+                        <h2>Guided Exercises</h2>
+                        <p>Access a library of evidence-based exercises for stress relief, anxiety management, and mood improvement, including breathing techniques, meditation, and cognitive restructuring.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <ion-icon name="people"></ion-icon>
+                        </div>
+                        <h2>Crisis Resources</h2>
+                        <p>Immediate access to crisis hotlines, emergency services, and mental health resources specific to your location when you need more support than our chatbot can provide.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <ion-icon name="document-text"></ion-icon>
+                        </div>
+                        <h2>Educational Content</h2>
+                        <p>Learn about mental health conditions, coping strategies, and self-care practices through our regularly updated educational resources.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <ion-icon name="shield-checkmark"></ion-icon>
+                        </div>
+                        <h2>Secure & Confidential</h2>
+                        <p>Your privacy is our priority. All conversations with DR.SMITH are encrypted and confidential, ensuring your personal information remains secure.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+</body>
+</html>

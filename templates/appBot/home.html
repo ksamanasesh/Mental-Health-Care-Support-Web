@@ -18,14 +18,12 @@
 
             <div class="menu">
                 <ul>
-                    <li><a href="#">HOME</a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">SERVICE</a></li>
-                    <li><a href="#">DESIGN</a></li>
-                    <li><a href="#">CONTACT</a></li>
-                    <button class="header-btn" id="profile-btn" title="Profile">
-                        <i class="fas fa-user-circle"></i>
-             </button>
+                    <li><a href="{% url 'home' %}">HOME</a></li>
+                    <li><a href="{% url 'about' %}">ABOUT</a></li>
+                    <li><a href="{% url 'service' %}">SERVICE</a></li>
+                    <li><a href="{% url 'design' %}">DESIGN</a></li>
+                    <li><a href="{% url 'contact' %}">CONTACT</a></li>
+
                 </ul>
             </div>
 

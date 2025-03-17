@@ -25,6 +25,18 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 def testing(request):
     return HttpResponse('<h1>Mental Health Care Support</h1>')
 
+def about(request):
+    return render(request,'about.html')
+
+def service(request):
+    return render(request,'service.html')
+
+def design(request):
+    return render(request,'design.html')
+
+def contact(request):
+    return render(request,'contact.html')
+
 # SignUp View
 def signUp(request):
     if request.method == 'POST':
