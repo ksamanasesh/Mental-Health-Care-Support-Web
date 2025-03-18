@@ -22,9 +22,7 @@ logger = logging.getLogger(__name__)
 nltk.download('vader_lexicon')
 sia = SentimentIntensityAnalyzer()
 
-# ================================
 # BASIC ROUTES
-# ================================
 def testing(request):
     return HttpResponse('<h1>Mental Health Care Support</h1>')
 
@@ -40,9 +38,8 @@ def design(request):
 def contact(request):
     return render(request, 'contact.html')
 
-# ================================
+
 # AUTHENTICATION ROUTES
-# ================================
 def signUp(request):
     """Handles user registration"""
     if request.method == 'POST':
@@ -86,10 +83,13 @@ def signIn(request):
     return render(request, 'signIn.html')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='signIn')
 def home(request):
-    """Home page with user greeting"""
-    return render(request, 'home.html', {'welcome': f"Hello, {request.user.first_name}"})
+    if request.user.is_authenticated:
+        welcome_message = f"Hello, {request.user.first_name}"
+    else:
+        welcome_message = "Hello, Guest"
+
+    return render(request, 'home.html', {'welcome': welcome_message})
 
 @login_required(login_url='signIn')
 def signOut(request):
@@ -98,9 +98,7 @@ def signOut(request):
     request.session.flush()
     return redirect('signIn')
 
-# ================================
 # USER PROFILE MANAGEMENT
-# ================================
 @login_required(login_url='signIn')
 def user_profile(request):
     """Handles user profile creation"""
@@ -119,9 +117,8 @@ def user_profile_view(request):
     user_detail = UserDetails.objects.all()
     return render(request, "user_profile_view.html", {'user_details': user_detail})
 
-# ================================
+
 # CHAT FUNCTIONALITY
-# ================================
 @login_required(login_url='signIn')
 @csrf_exempt
 def chat_view(request):
@@ -162,7 +159,7 @@ def chat_view(request):
             bot_response = response.text if response else "I'm here to listen. How can I support you today?"
 
             # Format bot response for proper HTML rendering
-            bot_response = bot_response.replace('* **', '<br><br>').replace('**', '')  # Convert Markdown to HTML
+            bot_response = bot_response.replace('* **', '<br>').replace('**', '=>')  # Convert Markdown to HTML
 
             # Save chat to database
             ChatMessage.objects.create(user=request.user, user_message=user_message, bot_response=bot_response)
@@ -190,9 +187,9 @@ def chat_page(request):
     """Renders chatbot UI"""
     return render(request, 'chat.html', {'csrf_token': get_token(request)})
 
-# ================================
+
 # CHAT DATA ANALYSIS
-# ================================
+
 @login_required
 def get_chat_data(request):
     """Generates chatbot analytics"""
